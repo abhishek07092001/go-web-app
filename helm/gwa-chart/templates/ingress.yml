@@ -1,20 +1,19 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: go-web-app
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  replicas: 1
-  selector:
-    matchLabels: 
-      app: go-web-app
-  template:
-    metadata:
-      labels: 
-        app: go-web-app 
-        
-    spec:
-      containers:
-        - name: go-web-app
-          image: abhishek070901/go-web-app:latest
-          ports:
-           - containerPort: 8080
+  ingressClassName: nginx
+  rules:
+    - host: go-web-app.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: go-web-app
+                port:
+                  number: 80
