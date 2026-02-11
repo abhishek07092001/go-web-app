@@ -89,3 +89,4 @@ jobs:
           git add helm/gwa-chart/values.yaml
           git commit -m "Update tag in Helm chart" || echo "No changes to commit"
           git push
+          
